@@ -1,0 +1,14 @@
+metacritic.com
+imdb.com
+google.com
+cnn.com
+foxnews.com
+rateyourmusic.com
+nytimes.com
+www.metacritic.com
+www.imdb.com
+www.google.com
+www.cnn.com
+www.foxnews.com
+www.rateyourmusic.com
+www.nytimes.com
