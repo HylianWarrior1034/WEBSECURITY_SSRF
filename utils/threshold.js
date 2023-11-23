@@ -1,8 +1,8 @@
-import prisma from "../prisma/client";
+const prisma = require("../prisma/client");
 
 // Byzantine Fault Tolerance
 // F needs to be at most 1/3 of number of nodes
-export const runBFT = async (url) => {
+const runBFT = async (url) => {
   const unqiueIPs = await prisma.request.groupBy({
     by: ["sourceIp"],
     _count: {
@@ -11,7 +11,9 @@ export const runBFT = async (url) => {
   });
   const f = unqiueIPs.length * 0.3;
   const requestsForURL = await prisma.request.findMany({
-    url,
+    where: {
+      url,
+    },
   });
   const numRequests = requestsForURL.length;
   if (numRequests > f) {
@@ -42,7 +44,7 @@ const checkIfRequestIsOutsideOfTimeWindow = async (url, ip) => {
   if (request === null || request === undefined) {
     return true;
   } else {
-    await prisma.request.update({
+    await prisma.request.updateMany({
       where: {
         sourceIp: ip,
         url: url,
@@ -58,15 +60,20 @@ const checkIfRequestIsOutsideOfTimeWindow = async (url, ip) => {
   }
 };
 
-export const storeRequest = async (url, body, ip) => {
-  if (checkIfRequestIsOutsideOfTimeWindow(url, ip)) {
-    await prisma.request.createMany({
-      sourceIp: ip,
-      requestBody: body,
-      url,
+const storeRequest = async (url, body, ip) => {
+  const shouldStore = await checkIfRequestIsOutsideOfTimeWindow(url, ip);
+  if (shouldStore) {
+    await prisma.request.create({
+      data: {
+        sourceIp: ip,
+        body,
+        url,
+      },
     });
     return true;
   } else {
     return false;
   }
 };
+
+module.exports = { storeRequest, runBFT };
