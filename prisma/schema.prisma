@@ -24,3 +24,8 @@ model AllowList {
   url               String
   adminOverride     Boolean @default(false)
 }
+
+model BlockList {
+  id                Int     @id @default(autoincrement())
+  url               String
+}

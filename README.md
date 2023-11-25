@@ -6,6 +6,7 @@ Course project for EN.601.640 Web Security at Johns Hopkins University
 
 ```
 PORT=
+DATABASE_URL=
 ```
 
 setup
