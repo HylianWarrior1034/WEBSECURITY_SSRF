@@ -32,6 +32,9 @@ const checkReqBody = async (body, uri) => {
     limit: 10,
     where: {
       url: uri,
+      NOT: {
+        body: {},
+      },
     },
     orderBy: { createdAt: "desc" },
   });
