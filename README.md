@@ -9,15 +9,31 @@ PORT=
 DATABASE_URL=
 ```
 
-setup
+setup for the app
 
 ```
+cd app
 npm i
 ```
 
-run
+setup for the dashbaord
 
 ```
+cd dashboard
+npm i
+```
+
+run app
+
+```
+cd app
+npm start
+```
+
+run dashboard
+
+```
+cd dashboard
 npm start
 ```
 
