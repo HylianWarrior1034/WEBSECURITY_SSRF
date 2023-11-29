@@ -18,7 +18,7 @@ const generateFakeData = async () => {
   for (let i = 0; i < 70000; i++) {
     createCall.push({
       sourceIp: ips[Math.floor(Math.random() * ips.length)],
-      url: urls[Math.floor(Math.random() * urls.length)],
+      url: "www." + urls[Math.floor(Math.random() * urls.length)],
       body: {},
     });
   }
