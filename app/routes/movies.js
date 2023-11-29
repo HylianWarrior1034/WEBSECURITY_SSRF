@@ -17,12 +17,9 @@ router.get("/", (req, res) => {
 router.post("/", async (req, res) => {
   try {
     var uri = new URL(req.body.url);
-    const stored = await thresholding.storeRequest(
-      uri.host,
-      req.body,
-      req.ip
-    );
-    if (allowlist.includes(uri.host)) {
+    const stored = await thresholding.storeRequest(uri.host, req.body, req.ip);
+    const allowed = await thresholding.runBFT(uri);
+    if (allowed) {
       res.render("pages/check", {
         title: "Check Movies",
         url: req.body.url,
