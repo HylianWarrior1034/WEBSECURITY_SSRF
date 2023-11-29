@@ -23,10 +23,18 @@ const runBFT = async (url) => {
   }
 };
 
-const checkReqBody = (body) => {
+const checkReqBody = async (body, uri) => {
   // const previous =
   const keys = Object.keys(body);
   const vals = Object.values(body);
+
+  const previous = await prisma.request.findMany({
+    limit: 10,
+    where: {
+      url: uri,
+    },
+    orderBy: { createdAt: "desc" },
+  });
 
   for (const l of previous) {
   }
