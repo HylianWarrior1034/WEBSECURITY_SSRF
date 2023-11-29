@@ -3,7 +3,10 @@ const router = express.Router();
 const prisma = require("../prisma/client");
 s;
 router.get("/", async (req, res) => {
-  const request = await prisma.request.findMany({});
+  const request = await prisma.request.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 10,
+  });
   return res.status(200).json({ request });
 });
 
