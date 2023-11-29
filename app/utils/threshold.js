@@ -9,7 +9,7 @@ const runBFT = async (url) => {
       sourceIp: true,
     },
   });
-  const f = unqiueIPs.length * 0.3;
+  const f = unqiueIPs.length * 0.66;
   const requestsForURL = await prisma.request.findMany({
     where: {
       url,
@@ -30,6 +30,7 @@ const shiftDate = (date) => {
 };
 
 const checkIfRequestIsOutsideOfTimeWindow = async (url, ip) => {
+  // exponential??
   const date = new Date();
   const shiftedDate = shiftDate(date);
   const request = await prisma.request.findFirst({
