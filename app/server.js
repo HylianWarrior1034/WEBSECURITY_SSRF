@@ -1,17 +1,23 @@
-const express = require('express');
-const ejs = require('ejs');
-const path = require('path');
+const express = require("express");
+const ejs = require("ejs");
+const path = require("path");
 const bodyParser = require("body-parser");
-
+const cors = require("cors");
 
 require("dotenv").config();
 const PORT = process.env.PORT || 3000;
 
 const app = express();
 
-app.set('view engine', 'ejs');
+app.use(
+    cors({
+        origin: "http://localhost:5000",
+    })
+);
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.set("view engine", "ejs");
+
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(
     bodyParser.urlencoded({
@@ -21,7 +27,7 @@ app.use(
 app.use(bodyParser.json());
 
 app.listen(PORT, () => {
-    console.log('Server started on port 3000');
+    console.log("Server started on port 3000");
 });
 
-app.use(require('./routes'))
+app.use(require("./routes"));

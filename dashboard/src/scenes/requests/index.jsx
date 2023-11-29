@@ -1,7 +1,10 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataTeam } from "../../data/mockData";
+import { mockDataRequests } from "../../data/mockData";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
@@ -10,38 +13,53 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Header from "../../components/Header";
 
 const Requests = () => {
+    const [data, setData] = useState({
+        id: "",
+        sourceIp: "",
+        url: "",
+        accessLevel: "",
+    });
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get("http://localhost:3000/query");
+                setData(response.data.request);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        fetchData();
+    }, []);
+
     const columns = [
-        { field: "id", headerName: "ID" },
         {
-            field: "name",
-            headerName: "Name",
+            field: "id",
+            headerAlign: "center",
+            align: "center",
+            headerName: "ID",
+        },
+        {
+            field: "sourceIp",
+            headerName: "Source IP Address",
             flex: 1,
             cellClassName: "name-column--cell",
         },
         {
-            field: "age",
-            headerName: "Age",
-            type: "number",
-            headerAlign: "left",
-            align: "left",
+            field: "url",
+            headerName: "URL",
+            flex: 2,
         },
         {
-            field: "phone",
-            headerName: "Phone Number",
-            flex: 1,
-        },
-        {
-            field: "email",
-            headerName: "Email",
-            flex: 1,
-        },
-        {
-            field: "accessLevel",
-            headerName: "Access Level",
-            flex: 1,
-            renderCell: ({ row: { access } }) => {
+            field: "allow",
+            headerName: "Allow",
+            headerAlign: "center",
+            align: "center",
+            flex: 0.5,
+            renderCell: () => {
                 return (
                     <Box
                         width="60%"
@@ -49,21 +67,32 @@ const Requests = () => {
                         p="5px"
                         display="flex"
                         justifyContent="center"
-                        backgroundColor={
-                            access === "admin"
-                                ? colors.greenAccent[600]
-                                : access === "manager"
-                                ? colors.redAccent[700]
-                                : colors.redAccent[700]
-                        }
+                        backgroundColor={colors.greenAccent[600]}
                         borderRadius="4px"
                     >
-                        {access === "admin" && <AddCircleIcon />}
-                        {access === "manager" && <RemoveCircleIcon />}
-                        {access === "user" && <RemoveCircleIcon />}
-                        {/* <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
-                            {access}
-                        </Typography> */}
+                        <AddCircleIcon />
+                    </Box>
+                );
+            },
+        },
+        {
+            field: "block",
+            headerName: "Block",
+            headerAlign: "center",
+            align: "center",
+            flex: 0.5,
+            renderCell: () => {
+                return (
+                    <Box
+                        width="60%"
+                        m="0 auto"
+                        p="5px"
+                        display="flex"
+                        justifyContent="center"
+                        backgroundColor={colors.redAccent[700]}
+                        borderRadius="4px"
+                    >
+                        <RemoveCircleIcon />
                     </Box>
                 );
             },
@@ -102,7 +131,7 @@ const Requests = () => {
                     },
                 }}
             >
-                <DataGrid rows={mockDataTeam} columns={columns} />
+                <DataGrid rows={data} columns={columns} />
             </Box>
         </Box>
     );

@@ -20,7 +20,7 @@ setup for the dashbaord
 
 ```
 cd dashboard
-npm i
+npm i --force
 ```
 
 run app
