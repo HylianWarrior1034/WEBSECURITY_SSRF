@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const thresholding = require("../utils/threshold");
 const fs = require("fs");
 
 let allowlist = fs
@@ -14,11 +15,11 @@ router.get("/", (req, res) => {
   });
 });
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   try {
     var uri = new URL(req.body.url);
-
-    if (allowlist.includes(uri.host)) {
+    const allowed = await thresholding.runBFT(uri);
+    if (allowed) {
       res.render("pages/check", {
         title: "Check Home",
         url: req.body.url,
