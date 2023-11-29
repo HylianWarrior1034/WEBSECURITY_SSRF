@@ -23,6 +23,17 @@ const runBFT = async (url) => {
   }
 };
 
+const checkReqBody = (body) => {
+  // const previous =
+  const keys = Object.keys(body);
+  const vals = Object.values(body);
+
+  for (const l of previous) {
+  }
+
+  return true;
+};
+
 const shiftDate = (date) => {
   // logic to shift date by set amount of time to count as unique request
   date.setUTCHours(date.getUTCHours() - 1);
