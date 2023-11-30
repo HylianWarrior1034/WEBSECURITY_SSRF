@@ -24,9 +24,25 @@ const runBFT = async (url) => {
 };
 
 const checkReqBody = async (body, uri) => {
-  // const previous =
-  const keys = Object.keys(body);
-  const vals = Object.values(body);
+  const compare = (obj1, obj2) => {
+    if (
+      0.67 * Object.keys(obj2).length > Object.keys(obj1).length ||
+      Object.keys(obj2).length * 1.33 < Object.keys(obj1).length
+    ) {
+      return false;
+    }
+
+    for (const key in Object.keys(obj1)) {
+      if (key in obj2) {
+        if (
+          0.33 * String(obj2[key]).length > String(obj1[key]).length ||
+          3 * String(obj2[key]).length < String(obj2[key]).length
+        ) {
+          return false;
+        }
+      }
+    }
+  };
 
   const previous = await prisma.request.findMany({
     limit: 10,
@@ -39,10 +55,14 @@ const checkReqBody = async (body, uri) => {
     orderBy: { createdAt: "desc" },
   });
 
+  var passed = 0;
   for (const l of previous) {
+    if (compare(body, l.body)) {
+      passed++;
+    }
   }
 
-  return true;
+  return passed / previous.length >= 0.7 ? true : false;
 };
 
 const shiftDate = (date) => {
