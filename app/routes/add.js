@@ -16,6 +16,26 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.post("/allow", async (req, res) => {
+  const url = req.body.url;
+  const new_entry = await prisma.allowList.create({
+    where: {
+      url: url,
+    },
+  });
+  return res.status(200).json({ new_entry });
+});
+
+router.post("/block", async (req, res) => {
+  const url = req.body.url;
+  const new_entry = await prisma.blockList.create({
+    where: {
+      url: url,
+    },
+  });
+  return res.status(200).json({ new_entry });
+});
+
 router.post("/hasThreshold", async (req, res) => {
   const result = await thresholding.runBFT(req.body.url);
   if (result) {
