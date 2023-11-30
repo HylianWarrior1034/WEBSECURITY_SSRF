@@ -35,6 +35,30 @@ const Requests = () => {
         fetchData();
     }, []);
 
+    const handleAllowClick = async (row) => {
+        try {
+            const response = await axios.post(
+                "http://localhost:3000/add/allow",
+                { ...row }
+            );
+            console.log(response);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    const handleBlockClick = async (row) => {
+        try {
+            const response = await axios.post(
+                "http://localhost:3000/add/block",
+                { ...row }
+            );
+            console.log(response);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
     const columns = [
         {
             field: "id",
@@ -59,7 +83,7 @@ const Requests = () => {
             headerAlign: "center",
             align: "center",
             flex: 0.5,
-            renderCell: () => {
+            renderCell: ({ row }) => {
                 return (
                     <Box
                         width="60%"
@@ -69,6 +93,7 @@ const Requests = () => {
                         justifyContent="center"
                         backgroundColor={colors.greenAccent[600]}
                         borderRadius="4px"
+                        onClick={() => handleAllowClick(row)}
                     >
                         <AddCircleIcon />
                     </Box>
@@ -81,7 +106,7 @@ const Requests = () => {
             headerAlign: "center",
             align: "center",
             flex: 0.5,
-            renderCell: () => {
+            renderCell: ({ row }) => {
                 return (
                     <Box
                         width="60%"
@@ -91,6 +116,7 @@ const Requests = () => {
                         justifyContent="center"
                         backgroundColor={colors.redAccent[700]}
                         borderRadius="4px"
+                        onClick={() => handleBlockClick(row)}
                     >
                         <RemoveCircleIcon />
                     </Box>
