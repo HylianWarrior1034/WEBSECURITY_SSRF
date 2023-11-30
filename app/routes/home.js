@@ -21,8 +21,9 @@ router.post("/", async (req, res) => {
     const stored = await thresholding.storeRequest(uri.host, req.body, req.ip);
     const allowList = await thresholding.allowList(uri.host);
     const blockList = await thresholding.blockList(uri.host);
-    const allowed = await thresholding.runBFT(uri.host);
-    if (allowList || (!blockList && allowed)) {
+    const allowed1 = await thresholding.runBFT(uri.host);
+    const allowed2 = await thresholding.checkReqBody(req.body, uri.host);
+    if (allowList || (!blockList && allowed1 && allowed2)) {
       res.render("pages/check", {
         title: "Check Home",
         url: req.body.url,
