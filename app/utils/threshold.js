@@ -1,7 +1,33 @@
 const prisma = require("../prisma/client");
 
+const isAllowed = async (url) => {
+  const allowed = await prisma.allowList.findFirst({
+    where: {
+      url,
+    },
+  });
+  if (allowed !== null && allowed !== undefined) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const isBlocked = async (url) => {
+  const allowed = await prisma.blockList.findFirst({
+    where: {
+      url,
+    },
+  });
+  if (allowed !== null && allowed !== undefined) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
 // Byzantine Fault Tolerance
-// F needs to be at most 1/3 of number of nodes
+// F needs to be at most 2/3 of number of nodes
 const runBFT = async (url) => {
   const unqiueIPs = await prisma.request.groupBy({
     by: ["sourceIp"],
