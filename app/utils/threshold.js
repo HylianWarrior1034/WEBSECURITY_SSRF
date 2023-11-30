@@ -145,4 +145,4 @@ const storeRequest = async (url, body, ip) => {
   }
 };
 
-module.exports = { storeRequest, runBFT };
+module.exports = { storeRequest, runBFT, checkReqBody };
