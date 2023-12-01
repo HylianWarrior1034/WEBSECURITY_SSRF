@@ -29,7 +29,7 @@ router.post("/allow", async (req, res) => {
     },
   });
   await prisma.request.deleteMany({
-    wherE: {
+    where: {
       url,
     },
   });
@@ -49,7 +49,7 @@ router.post("/block", async (req, res) => {
     },
   });
   await prisma.request.deleteMany({
-    wherE: {
+    where: {
       url,
     },
   });
