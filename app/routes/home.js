@@ -16,6 +16,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  let allowedStatus = "not allowed";
   try {
     var uri = new URL(req.body.url);
 
@@ -28,14 +29,12 @@ router.post("/", async (req, res) => {
 
     const allowed2 = await thresholding.checkReqBody(req.body, uri.host);
 
-    const allowedStatus = "not allowed";
-
     if (allowList || (!blockList && allowed1 && allowed2)) {
       allowedStatus = "allowed";
     } else {
       allowedStatus = "not allowed";
     }
-  } catch {
+  } catch (err) {
     allowedStatus = "an invalid url";
   }
 
