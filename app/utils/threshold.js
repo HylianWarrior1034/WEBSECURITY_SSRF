@@ -20,9 +20,9 @@ const isBlocked = async (url) => {
     },
   });
   if (allowed !== null && allowed !== undefined) {
-    return false;
-  } else {
     return true;
+  } else {
+    return false;
   }
 };
 
