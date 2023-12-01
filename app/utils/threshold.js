@@ -71,7 +71,7 @@ const checkReqBody = async (body, uri) => {
   };
 
   const previous = await prisma.request.findMany({
-    limit: 10,
+    take: 10,
     where: {
       url: uri,
       NOT: {
@@ -145,4 +145,4 @@ const storeRequest = async (url, body, ip) => {
   }
 };
 
-module.exports = { storeRequest, runBFT, checkReqBody };
+module.exports = { storeRequest, runBFT, checkReqBody, isAllowed, isBlocked };
