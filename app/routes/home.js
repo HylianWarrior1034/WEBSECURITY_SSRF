@@ -35,6 +35,7 @@ router.post("/", async (req, res) => {
       allowedStatus = "not allowed";
     }
   } catch (err) {
+    console.log(err);
     allowedStatus = "an invalid url";
   }
 
