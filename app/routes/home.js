@@ -18,7 +18,11 @@ router.get("/", (req, res) => {
 router.post("/", async (req, res) => {
   let allowedStatus = "not allowed";
   try {
-    var uri = new URL(req.body.url);
+    let urlString = req.body.url;
+    if (!urlString.startsWith("https://") && !urlString.startsWith("http://")) {
+      urlString = "https://" + req.body.url;
+    }
+    var uri = new URL(urlString);
 
     const allowList = await thresholding.isAllowed(uri.host);
     const blockList = await thresholding.isBlocked(uri.host);
@@ -35,6 +39,7 @@ router.post("/", async (req, res) => {
       allowedStatus = "not allowed";
     }
   } catch (err) {
+    console.log(err);
     allowedStatus = "an invalid url";
   }
 
