@@ -11,21 +11,21 @@ datasource db {
 }
 
 model Request {
-  id                Int      @id @default(autoincrement())
-  sourceIp          String
-  createdAt         DateTime       @default(now())
-  updatedAt         DateTime       @default(now()) @updatedAt
-  url               String
-  body              Json
+  id        Int      @id @default(autoincrement())
+  sourceIp  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  url       String
+  body      Json
 }
 
 model AllowList {
-  id                Int     @id @default(autoincrement())
-  url               String
-  adminOverride     Boolean @default(false)
+  id        Int     @id @default(autoincrement())
+  url       String
+  trustedIp Boolean @default(false)
 }
 
 model BlockList {
-  id                Int     @id @default(autoincrement())
-  url               String
+  id  Int    @id @default(autoincrement())
+  url String
 }
