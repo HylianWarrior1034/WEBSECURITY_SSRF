@@ -41,4 +41,4 @@ works cited:
 https://github.com/bensooter/URLchecker/blob/master/top-1000-websites.txt
 
 DB env:
-DATABASE_URL="postgresql://postgres:ssrf-detection!@db.gfzkpvpagcmqttswavbv.supabase.co:5432/postgres"
+DATABASE_URL=postgresql://postgres:ssrf-detection!@db.gfzkpvpagcmqttswavbv.supabase.co:5432/postgres
