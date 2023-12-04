@@ -31,7 +31,8 @@ router.post("/", async (req, res) => {
     }
     const allowed1 = await thresholding.runBFT(uri.host);
 
-    const allowed2 = await thresholding.checkReqBody(req.body, uri.host);
+    // const allowed2 = await thresholding.checkReqBody(req.body, uri.host);
+    const allowed2 = true;
 
     if (allowList || (!blockList && allowed1 && allowed2)) {
       allowedStatus = "allowed";
