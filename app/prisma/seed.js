@@ -19,7 +19,11 @@ const generateFakeData = async () => {
     createCall.push({
       sourceIp: ips[Math.floor(Math.random() * ips.length)],
       url: "www." + urls[Math.floor(Math.random() * urls.length)],
-      body: {},
+      body: {
+        key1: faker.faker.lorem.word(),
+        key2: faker.faker.phone.number(),
+        key3: faker.faker.location.streetAddress(),
+      },
     });
   }
   await prisma.request.createMany({
