@@ -50,24 +50,25 @@ const runBFT = async (url) => {
 };
 
 const checkReqBody = async (body, uri) => {
-  const compare = (obj1, obj2) => {
+  const compare = (newObj, oldObj) => {
     if (
-      0.67 * Object.keys(obj2).length > Object.keys(obj1).length ||
-      Object.keys(obj2).length * 1.33 < Object.keys(obj1).length
+      0.67 * Object.keys(oldObj).length > Object.keys(newObj).length ||
+      Object.keys(oldObj).length * 1.33 < Object.keys(newObj).length
     ) {
       return false;
     }
 
-    for (const key in Object.keys(obj1)) {
-      if (key in obj2) {
+    for (const key in Object.keys(newObj)) {
+      if (key in oldObj) {
         if (
-          0.33 * String(obj2[key]).length > String(obj1[key]).length ||
-          3 * String(obj2[key]).length < String(obj2[key]).length
+          0.33 * String(oldObj[key]).length > String(newObj[key]).length ||
+          3 * String(oldObj[key]).length < String(oldObj[key]).length
         ) {
           return false;
         }
       }
     }
+    return true;
   };
 
   const previous = await prisma.request.findMany({
@@ -87,7 +88,6 @@ const checkReqBody = async (body, uri) => {
       passed++;
     }
   }
-
   return passed / previous.length >= 0.7 ? true : false;
 };
 
